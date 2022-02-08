@@ -52,6 +52,11 @@ class LeaveRequestAPITestCase(TestCase):
         response = self.client.post('/leave/', self.leave_request, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_api_can_list_all_leave_requests(self):
+        """Test the api can list all leave requests."""
+        response = self.client.get('/leave/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_api_can_get_a_leave_request(self):
         """Test the api can get a given leave."""
         leave = Leave.objects.get()
