@@ -14,7 +14,7 @@ class LeaveView(APIView):
         end = datetime.strptime(end, '%Y-%m-%d')
         delta = end - start  # as timedelta
         days = [start + timedelta(days=i) for i in range(delta.days + 1)]
-        return days
+        return len(days)
 
     def get(self, request):
         """
