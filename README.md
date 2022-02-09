@@ -26,16 +26,32 @@ To Run this :-
   
  4. makemigrations
  
-                          $ python manage.py makemigrations
+                          $ python3 leave/manage.py makemigrations
  
  5. migrate to database
  
-                          $ python manage.py migrate
-                          
- 6. create super user
+                          $ python3 leave/manage.py migrate
+
+ 6. add dummy data
  
-                          $ python manage.py createsuperuser
+                          $ python3 leave/manage.py loaddata leave/data.json
   
- 6. Runserver
+ 7. Runserver
  
-                          $ python manage.py runserver
+                          $ python3 leave/manage.py runserver
+
+ 7. Run tests
+
+                         $ python3 leave/manage.py test submission_app
+
+
+
+Endpoints:
+
+| HTTP REQUEST | URL             | PARAMS                                                                                                                                                                       |
+|--------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GET          | /leave/         | N/A                                                                                                                                                                          |
+| GET          | /leave/?pk=<id> | 3                                                                                                                                                                            |
+| POST         | /leave/         | {      "leave_requester" :  "Gwen Doe" ,      "start_date" :  "2020-01-01" ,      "end_date" :  "2020-01-01" ,      "reason" :  "I need a vacation" ,      "status" :  "P" } |
+| PUT          | /leave/?pk=1    | 3                                                                                                                                                                            |
+| DELETE       | /leave/?pk=1    | 3                                                                                                                                                                            |

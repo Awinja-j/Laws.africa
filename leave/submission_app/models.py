@@ -8,8 +8,7 @@ class Leave(models.Model):
     leave_requester = models.TextField(max_length=200)
     start_date = models.DateField()
     end_date = models.DateField()
-    reason = models.TextField()
-    status = models.CharField(max_length=1, choices=[('P', 'Pending'), ('A', 'Approved'), ('R', 'Rejected')])
+    reason = models.TextField(choices=[('N', 'Normal'), ('S', 'Sick Leave')] )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -21,10 +20,7 @@ class LeaveSerializer(serializers.Serializer):
     leave_requester = serializers.CharField()
     start_date = serializers.DateField()
     end_date = serializers.DateField()
-    reason = serializers.CharField()
-    status = serializers.ChoiceField(choices=[('P', 'Pending'), ('A', 'Approved'), ('R', 'Rejected')])
-    created_at = serializers.DateTimeField()
-    updated_at = serializers.DateTimeField()
+    reason = serializers.ChoiceField(choices=[('N', 'Normal'), ('S', 'Sick Leave')])
 
     class Meta:
         model = Leave
@@ -45,7 +41,17 @@ class LeaveSerializer(serializers.Serializer):
         instance.start_date = validated_data.get('start_date', instance.start_date)
         instance.end_date = validated_data.get('end_date', instance.end_date)
         instance.reason = validated_data.get('reason', instance.reason)
-        instance.status = validated_data.get('status', instance.status)
         instance.updated_at = validated_data.get('updated_at', instance.updated_at)
         instance.save()
         return instance
+    
+    def validate(self, data):
+        """
+        Validate the data
+        """
+        if data['start_date'] > data['end_date']:
+            raise serializers.ValidationError("End date cannot be before start date")
+
+        return data
+
+    
